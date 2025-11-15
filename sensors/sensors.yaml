@@ -1,0 +1,49 @@
+command_line:
+  - sensor:
+      name: "HA FD Total"
+      command: "pid=$(pgrep -o -f 'python3 -m homeassistant'); ls /proc/$pid/fd | wc -l"
+      scan_interval: 30
+      unit_of_measurement: "fds"
+      value_template: "{{ value | int }}"
+  - sensor:
+      name: "HA FD Sockets"
+      command: "pid=$(pgrep -o -f 'python3 -m homeassistant'); ls -l /proc/$pid/fd | grep socket | wc -l"
+      scan_interval: 30
+      unit_of_measurement: "fds"
+      value_template: "{{ value | int }}"
+  - sensor:
+      name: "HA FD Pipes"
+      command: "pid=$(pgrep -o -f 'python3 -m homeassistant'); ls -l /proc/$pid/fd | grep pipe | wc -l"
+      scan_interval: 30
+      unit_of_measurement: "fds"
+      value_template: "{{ value | int }}"
+  - sensor:
+      name: "HA FD Real Files"
+      command: "pid=$(pgrep -o -f 'python3 -m homeassistant'); ls -l /proc/$pid/fd | grep -v socket | grep -v pipe | wc -l"
+      scan_interval: 30
+      unit_of_measurement: "fds"
+      value_template: "{{ value | int }}"
+  - sensor:
+      name: "HA TCP IPv4 sockets"
+      command: "sh -c 'tail -n +2 /proc/net/tcp 2>/dev/null | wc -l || echo 0'"
+      scan_interval: 60
+      unit_of_measurement: "sockets"
+      icon: mdi:lan
+  - sensor:
+      name: "HA TCP IPv6 sockets"
+      command: "sh -c '[ -f /proc/net/tcp6 ] && tail -n +2 /proc/net/tcp6 | wc -l || echo 0'"
+      scan_interval: 60
+      unit_of_measurement: "sockets"
+      icon: mdi:lan
+  - sensor:
+      name: "HA UDP IPv4 sockets"
+      command: "sh -c 'tail -n +2 /proc/net/udp 2>/dev/null | wc -l || echo 0'"
+      scan_interval: 60
+      unit_of_measurement: "sockets"
+      icon: mdi:lan
+  - sensor:
+      name: "HA UDP IPv6 sockets"
+      command: "sh -c '[ -f /proc/net/udp6 ] && tail -n +2 /proc/net/udp6 | wc -l || echo 0'"
+      scan_interval: 60
+      unit_of_measurement: "sockets"
+      icon: mdi:lan
