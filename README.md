@@ -23,16 +23,7 @@ The `sensors/sensors.yaml` file contains definitions for Home Assistant sensors 
 - TCP IPv4/IPv6 socket counts
 - UDP IPv4/IPv6 socket counts
 
-### Diagnostic Scripts
-
-The `scripts` directory contains Python scripts to help identify specific connections:
-
-- `tcp-socket-ips.py`: Analyzes TCP socket connections for a specific process and shows which remote IP addresses have the most connections
-- `udp-detail.py`: Analyzes UDP socket connections for a specific process and shows details about local ports and remote endpoints
-
-## Installation
-
-### Sensors
+#### Installation
 
 1. Copy the contents of `sensors/sensors.yaml` to your Home Assistant configuration
 2. Add the following to your `configuration.yaml`:
@@ -41,21 +32,7 @@ The `scripts` directory contains Python scripts to help identify specific connec
    ```
 3. Restart Home Assistant
 
-### Scripts
-
-The scripts need to be run via SSH on the Home Assistant host.
-When using Home Assistant OS it's needed to use the `[Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh)` addon, NOT the default `Terminal & SSH` addon.
-This is because the latter is unable to access the home assistant container, which we'll need to further investigate.
-
-1. Disable `Protection mode` toggle for the SSH addon
-2. Start the SSH addon when not done already
-3. SSH into your Home Assistant system or `Open WebUI` to do it in your browser
-4. TODO
-5. ..
-
-## Usage
-
-### Monitoring with Sensors
+#### Usage
 
 After adding the sensors, you can:
 
@@ -63,9 +40,33 @@ After adding the sensors, you can:
 2. Set up alerts when values exceed certain thresholds
 3. Track trends over time to identify patterns
 
-### Using the Diagnostic Scripts
+### Diagnostic Scripts
 
-When you notice high file descriptor usage, you can use the scripts to further investigate:
+The `scripts` directory contains Python scripts to help identify specific connections:
+
+- `tcp-socket-ips.py`: Analyzes TCP socket connections for a specific process and shows which remote IP addresses have the most connections
+- `udp-detail.py`: Analyzes UDP socket connections for a specific process and shows details about local ports and remote endpoints
+
+#### Prerequisites
+
+To use the scripts with Home Assistant OS, you'll need:
+
+1. The [Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) addon (NOT the default "Terminal & SSH" addon)
+   - This is required because the default addon cannot access the Home Assistant container
+2. Disable the "Protection mode" toggle for the SSH addon
+3. Start the SSH addon if not already running
+
+#### Installation
+
+1. SSH into your Home Assistant system or use "Open WebUI" to access it in your browser
+2. Go into the Home Assistant container: `docker exec -it homeassistant sh`
+3. Clone the repository: `git clone https://github.com/bramstroker/ha-file-descriptor-debug.git`
+4. Navigate to the scripts directory: `cd ha-file-descriptor-debug/scripts`
+5. Make the scripts executable: `chmod +x *.py`
+
+#### Usage
+
+When you notice high file descriptor usage, you can use the scripts to investigate:
 
 1. Find the Home Assistant process ID:
    ```bash
