@@ -25,12 +25,8 @@ The `sensors/sensors.yaml` file contains definitions for Home Assistant sensors 
 
 #### Installation
 
-1. Copy the contents of `sensors/sensors.yaml` to your Home Assistant configuration
-2. Add the following to your `configuration.yaml`:
-   ```yaml
-   sensor: !include sensors.yaml
-   ```
-3. Restart Home Assistant
+1. Copy the contents of `sensors/sensors.yaml` to your Home Assistant `configuration.yaml`.
+2. Restart Home Assistant or Go to Developer Tools and click Reload all YAML configuration.
 
 #### Usage
 
